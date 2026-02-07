@@ -176,7 +176,8 @@ static netdev_tx_t gztun_start_xmit(struct sk_buff *skb, struct net_device *dev)
   skb->dev = gztun->redirect_dev;
   dev_queue_xmit(skb);
 
-  pr_info("gztun: packet compressed to %zu bytes and redirected to %s\n", new_size, gztun->redirect_dev->name);
+  pr_info("gztun: packet compressed from %zu to %zu bytes and forwarded to %s\n",
+          old_size, new_size, gztun->redirect_dev->name);
   return NETDEV_TX_OK;
 
 drop:
