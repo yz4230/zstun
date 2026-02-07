@@ -1,4 +1,4 @@
-MOD = gztun
+MOD = zstun
 KPATH :=/lib/modules/$(shell uname -r)/build
 PWD :=$(shell pwd)
 obj-m = $(MOD).o
