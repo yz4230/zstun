@@ -63,6 +63,9 @@ static int gztun_newlink(struct net_device *dev, struct rtnl_newlink_params *par
       pr_err("gztun: failed to get device by index %u\n", ifindex);
       return -ENODEV;
     }
+  } else {
+    pr_err("gztun: no IFLA_LINK attribute provided\n");
+    return -EINVAL;
   }
 
   return register_netdev(dev);
