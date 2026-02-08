@@ -103,7 +103,10 @@ static int stretch_skb_size(struct sk_buff *skb, int size_diff) {
         return ret;
       }
     }
+    skb_put(skb, size_diff);
   } else if (size_diff < 0) {
+    if (skb->len < -size_diff)
+      return -EINVAL;
     skb_trim(skb, skb->len + size_diff);
   }
   return 0;
@@ -161,6 +164,7 @@ static netdev_tx_t zstun_start_xmit(struct sk_buff *skb, struct net_device *dev)
     pr_err("zstun: stretch_skb_size failed: %d\n", ret);
     goto drop;
   }
+  pr_info("zstun: new skb len=%u\n", skb->len);
 
   memcpy(skb->data + payload_off, ctx->dst_buf, new_size);
   struct iphdr *iph = (struct iphdr *)skb->data;
